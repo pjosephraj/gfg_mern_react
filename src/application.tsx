@@ -16,9 +16,39 @@ const Application: React.FunctionComponent<{}> = (props) => {
 
   const { setUserLoggedIn } = bindActionCreators(actions, dispatch);
 
+  const loadScript = (src: any) => {
+    return new Promise(res => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => {
+        res(true);
+      };
+      script.onerror = () => {
+        res(false);
+      }
+      document.body.appendChild(script);
+    });
+  };
+
+
+
+  useEffect(() => {
+    const loadRazorPay = async () => {
+      try {
+        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+        if (!res) alert('Network Error, Please check the connectivity!')
+        return;
+      } catch (err: any) {
+        console.log(err.message || err)
+      }
+    }
+    loadRazorPay();
+  }, [])
+
   useEffect(() => {
     logging.info('Loading Application');
     setUserLoggedIn(!!localStorage.getItem('isLoggedIn'));
+    // loadRazorPay();
   })
 
   return (

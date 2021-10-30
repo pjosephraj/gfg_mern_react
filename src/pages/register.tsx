@@ -63,6 +63,9 @@ const RegisterPage: React.FC<Ipage & RouteComponentProps<any>> = (props) => {
           setErrorMessage(respErrMsg);
         } else {
           setSuccessMessage('User Successfully Created!');
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 3000)
           resetForm();
         }
       } catch (err) {
