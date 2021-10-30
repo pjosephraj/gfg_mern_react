@@ -35,7 +35,7 @@ const ProductPage: React.FC<Ipage & any> = (props) => {
     try {
       setErrorMessage('');
       setSuccessMessage('');
-      let resp: any = await fetch(`http://localhost:3004/api/v1/razorpay/order/${product?._id}`);
+      let resp: any = await fetch(`${config.apiUrl}/razorpay/order/${product?._id}`);
       resp = await resp.json();
       const { amount, id: order_id, currency } = resp.order;
       const options = {
@@ -56,7 +56,7 @@ const ProductPage: React.FC<Ipage & any> = (props) => {
             amount: amount.toString(),
             currency
           };
-          const successResp = await fetch('http://localhost:3004/api/v1/razorpay/verify', {
+          const successResp = await fetch(`${config.apiUrl}/razorpay/verify`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
